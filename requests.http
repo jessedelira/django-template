@@ -1,0 +1,18 @@
+### POST: create a dog
+POST http://localhost:8000/api/dogs/create_dog/
+Content-Type: application/json
+
+{
+    "data": {
+        "name": "Max",
+        "breed": "yorkie",
+        "age": 3
+    }
+}
+
+### GET: get a dog
+GET http://localhost:8000/api/dogs/get_dog/
+
+### POST: print a dog
+POST http://localhost:8000/api/dogs/print_dog_created/
+Content-Type: application/json

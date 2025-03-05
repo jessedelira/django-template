@@ -12,9 +12,10 @@ from api.services import DogService
 
 
 class CreateDogDto(BaseModel):
-    """  
+    """
     This is the data transfer object for the creation of a dog action.
     """
+
     name: str
     breed: str
     age: int
@@ -24,6 +25,7 @@ class DogController(viewsets.ModelViewSet):
     """
     Endpoints for the dog Model:
     """
+
     queryset = Dog.objects.all()
     serializer_class = DogSerializer
     permission_classes = [AllowAny]
@@ -38,8 +40,13 @@ class DogController(viewsets.ModelViewSet):
         serializer = self.get_serializer(young_dogs, many=True)
         return Response(serializer.data)
 
+    @action(detail=True, methods=["get"])
+    def get_dog(self):
+        print("get_dog")
+        return Response(200)
+
     @action(detail=False, methods=["post"])
-    def create_dog(self,request: CreateDogDto):
+    def create_dog(self, request: CreateDogDto):
         dog_data: Dict[str, Any] = request.data.get("data", {})
         new_dog = Dog.objects.create(
             name=dog_data.get("name"),
@@ -58,7 +65,6 @@ class DogController(viewsets.ModelViewSet):
     def print_dog_created(self, request: CreateDogDto) -> Response:
         create_dog_dto: CreateDogDto = request
 
-
         dog_data: Dict[str, Any] = request.data.get("data", {})
         new_dog = Dog.objects.create(
             name=dog_data.get("name", "Unknown"),
@@ -67,7 +73,7 @@ class DogController(viewsets.ModelViewSet):
         )
 
         old_dog = Dog.objects.create()
-        print(f'new_dog: ${new_dog}')
-        print(f'old_dog: ${old_dog}')
+        print(f"new_dog: ${new_dog}")
+        print(f"old_dog: ${old_dog}")
         serializer = self.get_serializer(new_dog)
         return Response(serializer.data, status=201)
